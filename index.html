@@ -45,14 +45,20 @@
             font-size: 18px;
             margin-top: 20px;
         }
+        #feedback {
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <h1>🌿 Quiz 🌍</h1>
+        <h1>🌿 Quiz Ambiental 🌍</h1>
         <p id="question">Cargando pregunta...</p>
         <div id="options"></div>
-        <p id="score">Puntaje: 0</p>
+        <p id="feedback"></p>
+        <p id="score">Puntaje: 0 / 10</p>
     </div>
     <script>
         let questions = [];
@@ -74,14 +80,16 @@
 
         function showQuestion() {
             if (currentQuestion >= selectedQuestions.length) {
-                document.getElementById("question").innerText = "🎉 Juego terminado. Puntaje final: " + score;
+                document.getElementById("question").innerText = "🎉 Juego terminado. Puntaje final: " + score + " / " + selectedQuestions.length;
                 document.getElementById("options").innerHTML = "";
+                document.getElementById("feedback").innerText = "";
                 return;
             }
             
             const q = selectedQuestions[currentQuestion];
             document.getElementById("question").innerText = q.question;
             document.getElementById("options").innerHTML = "";
+            document.getElementById("feedback").innerText = "";
             
             q.options.forEach(option => {
                 let btn = document.createElement("button");
@@ -93,14 +101,22 @@
         }
 
         function checkAnswer(selected) {
-            if (selected === selectedQuestions[currentQuestion].answer) {
+            const correctAnswer = selectedQuestions[currentQuestion].answer;
+            
+            if (selected === correctAnswer) {
                 score++;
-                document.getElementById("score").innerText = "Puntaje: " + score;
+                document.getElementById("feedback").innerText = "🎉 ¡Correcto! Bien hecho.";
+            } else {
+                document.getElementById("feedback").innerText = "❌ Incorrecto. La respuesta correcta es: " + correctAnswer;
             }
-            currentQuestion++;
-            showQuestion();
+            
+            document.getElementById("score").innerText = "Puntaje: " + score + " / " + selectedQuestions.length;
+            
+            setTimeout(() => {
+                currentQuestion++;
+                showQuestion();
+            }, 2000);
         }
     </script>
-    Borbala Rohonyi 2025
 </body>
 </html>
