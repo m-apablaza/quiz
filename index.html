@@ -66,13 +66,13 @@
         let currentQuestion = 0;
         let score = 0;
 
-        fetch('quiz_questions.json')
-            .then(response => response.json())
-            .then(data => {
-                questions = data.questions;
-                selectedQuestions = shuffleArray(questions).slice(0, 10);
-                showQuestion();
-            });
+fetch('quiz_questions.json')
+    .then(response => response.json())
+    .then(data => {
+        questions = data.questions;
+        selectedQuestions = getRandomQuestions(questions, 10); // Select 10 random questions
+        showQuestion();
+    });
 
         function shuffleArray(array) {
             return array.sort(() => Math.random() - 0.5);
